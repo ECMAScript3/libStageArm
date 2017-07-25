@@ -9,6 +9,7 @@
 |C++             |Header and Shared Object|✓     |Success  |
 |JavaScript      |SWIG Wrapper            |✓     |Success  |
 |Java            |SWIG Wrapper            |✓     |Success  |
+|Scala           |Java SWIG Wrapper       |✓     |Success  |
 |Allegro CL      |SWIG Wrapper            |✗     |Unknown  |
 |C#              |SWIG Wrapper            |✗     |Unknown  |
 |CFFI            |SWIG Wrapper            |✗     |Unknown  |
@@ -67,7 +68,7 @@
 Send command as string in get request. Delimit args with "~" Returns a JSON object formatted like so:
 ```javascript
 {
-   "Success:" : True|False;
+   "Success:" : true|false;
    "Error"    : "Error String"|null
 }
 ```
