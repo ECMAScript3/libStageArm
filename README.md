@@ -42,9 +42,14 @@
  
  ### Commands
  
-|Command          |Initial Byte |Buffer Size |Arguments |
-|-----------------|:-----------:|:----------:|----------|
-|Begin New Set    |0x00         |1           |None      |
+|Command          |Initial Byte |Buffer Size |Arguments                    |
+|-----------------|:-----------:|:----------:|-----------------------------|
+|Begin New Set    |0x00         |1+0         |None                         |
+|Calibrate        |0x01         |1+1         |0, 1, 2 -> X, Y, Z           |
+|Relative Movement|0x02         |1+3x4       |3 floats -> X, Y, Z movement |
+|Absolute Movement|0x03         |1+3x4       |3 floats -> X, Y, Z coord    |
+|Set vacuum       |0x04         |1+1         |0, 1 -> on, off              |
+|Toggle Vacuum    |0x5          |1+0         |None                         |
 
 ### Error Codes
 
