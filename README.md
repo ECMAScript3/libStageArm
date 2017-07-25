@@ -30,4 +30,12 @@
 |Scilab          |SWIG Wrapper            |✗     |Unknown  |
 |Tcl             |SWIG Wrapper            |✗     |Unknown  |
 |UFFI            |SWIG Wrapper            |✗     |Unknown  |
->If you test a language, please make a pull request. Thank you!
+>If you test a language, please make a pull request.
+>If you create a wrapper or implementation in an unlisted language,
+>please, feel free to make a pull request with an update to the
+>table and your implementation.
+>Thank you!
+# Serial Standard
+
+|Command |Initial Byte |Buffer Size |Arguments |
+|--------|:-----------:|:----------:|----------|
