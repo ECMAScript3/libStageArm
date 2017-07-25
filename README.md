@@ -30,4 +30,4 @@
 |Scilab          |SWIG Wrapper            |✗     |
 |Tcl             |SWIG Wrapper            |✗     |
 |UFFI            |SWIG Wrapper            |✗     |
->If you test a language, please commit an update to this table. Thanks!
+>If you test a language, please make a pull request. Thanks!
