@@ -73,8 +73,9 @@
 Send command as string in get request. Delimit args with "~". Returns a JSON object formatted like so:
 ```javascript
 {
-   "Success:" : true|false,
-   "Error"    : "Error String"|null
+   "Success:"    : true|false,
+   "Return Code" : {0x00, ..., 0x0A},
+   "Error"       : "Error String"|null
 }
 ```
 
