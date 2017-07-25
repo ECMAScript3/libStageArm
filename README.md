@@ -44,7 +44,7 @@
  
 |Command          |Initial Byte |Buffer Size |Arguments |
 |-----------------|:-----------:|:----------:|----------|
-|Begin New Set    |0x00         |1           |N/A       |
+|Begin New Set    |0x00         |1           |None      |
 
 ### Error Codes
 
