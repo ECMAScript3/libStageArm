@@ -30,4 +30,4 @@
 |Scilab          |SWIG Wrapper            |✗     |Unknown  |
 |Tcl             |SWIG Wrapper            |✗     |Unknown  |
 |UFFI            |SWIG Wrapper            |✗     |Unknown  |
->If you test a language, please make a pull request. Than
+>If you test a language, please make a pull request. Thank you!
