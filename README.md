@@ -63,3 +63,15 @@
 
 
 # REST API
+
+Send command as string in get request. Delimit args with "~" Returns a JSON object formatted like so:
+```javascript
+{
+   "Success:" : True|False;
+   "Error"    : "Error String"|null
+}
+```
+
+|Request |Command |Args   |
+|--------|--------|-------|
+|Move    |0x01    |"X~Y~Z"|
