@@ -84,5 +84,5 @@ Send command as string in get request. Delimit args with "~". Returns a JSON obj
 |CALB     |Calibrate         |"X\~Y\~Z"   |
 |RMOV     |Relative Movement |"X\~Y\~Z"   |
 |AMOV     |Absolute Movement |"X\~Y\~Z"   |
-|SVAC     |Set Vacuum        |`true|false`|
+|SVAC     |Set Vacuum        |`true\|false`|
 |TVAC     |Toggle Vacuum     |None        |
