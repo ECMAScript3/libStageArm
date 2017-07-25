@@ -75,4 +75,4 @@ Send command as string in get request. Delimit args with "~" Returns a JSON obje
 
 |Request |Command |Args   |
 |--------|--------|-------|
-|Move    |0x01    |"X~Y~Z"|
+|Move    |0x01    |"X\~Y\~Z"|
