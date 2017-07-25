@@ -48,7 +48,7 @@
 |Calibrate        |0x01         |1+1         |0, 1, 2 -> X, Y, Z           |
 |Relative Movement|0x02         |1+3x4       |3 floats -> X, Y, Z movement |
 |Absolute Movement|0x03         |1+3x4       |3 floats -> X, Y, Z coord    |
-|Set vacuum       |0x04         |1+1         |0, 1 -> on, off              |
+|Set vacuum       |0x04         |1+1         |0, 1 -> On, Off              |
 |Toggle Vacuum    |0x5          |1+0         |None                         |
 
 ### Error Codes
@@ -70,7 +70,7 @@
 
 # REST API
 
-Send command as string in get request. Delimit args with "~" Returns a JSON object formatted like so:
+Send command as string in get request. Delimit args with "~". Returns a JSON object formatted like so:
 ```javascript
 {
    "Success:" : true|false;
@@ -78,6 +78,10 @@ Send command as string in get request. Delimit args with "~" Returns a JSON obje
 }
 ```
 
-|Request |Command |Args     |
-|--------|--------|---------|
-|Move    |Move    |"X\~Y\~Z"|
+|Request  |Command           |Args        |
+|---------|------------------|------------|
+|CALB     |Calibrate         |"X\~Y\~Z"   |
+|RMOV     |Relative Movement |"X\~Y\~Z"   |
+|AMOV     |Absolute Movement |"X\~Y\~Z"   |
+|SVAC     |Set Vacuum        |`true/false`|
+|TVAC     |Toggle Vacuum     |None        |
