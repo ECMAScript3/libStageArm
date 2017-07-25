@@ -40,6 +40,7 @@
  Any control command for the 3D Platform will be a single Byte (unsigned char / uChar / uInt_8) along, followed by a command-specific buffer array. All commands are little-endian. The Buffer Size includes the Initial Byte and the Arguments. Every action will respind with 0 for a successful action or a non-zero value for an unsuccessful action. Some actions will have specific responses for certian errors, but will usually just return 1 if they are unsuccessful.
 |Command |Initial Byte |Buffer Size |Arguments |
 |--------|:-----------:|:----------:|----------|
+|        |             |            |          |
 
 |Error Code |Meaning                                                              |
 |:---------:|---------------------------------------------------------------------|
