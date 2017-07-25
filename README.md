@@ -5,10 +5,10 @@
 # Compatibility
 |Language        |Implementation          |Tested|
 |:--------------:|------------------------|:----:|
-|C               |Header and Shared Object|✔     |
-|C++             |Header and Shared Object|✔     |
-|JavaScript      |SWIG Wrapper            |✔     |
-|Java            |SWIG Wrapper            |✔     |
+|C               |Header and Shared Object|✓     |
+|C++             |Header and Shared Object|✓     |
+|JavaScript      |SWIG Wrapper            |✓     |
+|Java            |SWIG Wrapper            |✓     |
 |Allegro CL      |SWIG Wrapper            |✗     |
 |C#              |SWIG Wrapper            |✗     |
 |CFFI            |SWIG Wrapper            |✗     |
