@@ -39,12 +39,12 @@
 >Thank you!
 # Serial Standard
  Any control command for the 3D Platform will be a single Byte (unsigned char / uChar / uInt_8) along, followed by a command-specific buffer array. All commands are little-endian. The Buffer Size includes the Initial Byte and the Arguments. Every action will respind with 0 for a successful action or a non-zero value for an unsuccessful action. Some actions will have specific responses for certian errors, but will usually just return 1 if they are unsuccessful.
- 
- ### Commands
- 
+
+### Commands
+
 |Command          |Initial Byte |Buffer Size |Arguments                    |
 |-----------------|:-----------:|:----------:|-----------------------------|
-|Begin New Set    |0x00         |1+0         |None                         |
+|Calibrate all    |0x00         |1+0         |None                         |
 |Calibrate        |0x01         |1+1         |0, 1, 2 -> X, Y, Z           |
 |Relative Movement|0x02         |1+3x4       |3 floats -> X, Y, Z movement |
 |Absolute Movement|0x03         |1+3x4       |3 floats -> X, Y, Z coord    |
