@@ -149,12 +149,12 @@ void setup() {
   pinMode(Z_BOTTOM_SENSOR, INPUT);
 
   pinMode(DEBUG_LIGHT,OUTPUT);
-
-  rawRelMov(1, 5, 0);
+  digitalWrite(DEBUG_LIGHT, LOW);
 }
 
 void loop() {
   if(Serial.available()){
+   digitalWrite(DEBUG_LIGHT, HIGH);
    delay(100); //wait for transmission to finish
    byte command = Serial.read();
 
