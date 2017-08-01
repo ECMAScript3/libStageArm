@@ -18,15 +18,19 @@ var path = dialogs.prompt("Enter Arduino serial path", "/dev/cu.usbmodem1411", (
             floatCoords[0] = 0; floatCoords[1] = 0; floatCoords[2] = 0;
 
             switch(event.keyCode) {
+            case 75: //k
             case 38: //up
                 floatCoords[1] = 2;
                 break;
+            case 74: //j
             case 40: //down
                 floatCoords[1] = -2;
                 break;
+            case 72: //h
             case 37: //left
                 floatCoords[0] = -2;
                 break;
+            case 76: //l
             case 39: //right
                 floatCoords[0] = 2;
                 break;
