@@ -1,15 +1,14 @@
-#define CP_X_PIN 2 //red
-#define DIR_X_PIN 3 //yellow
-#define EN_X_PIN 4 //green
+#define DIR_X_PIN 2 //red
+#define CP_X_PIN 3 //orange
+#define EN_X_PIN 4 //eliminated
 
-#define CP_Y_PIN 5
-#define DIR_Y_PIN 6
-#define EN_Y_PIN 7
+#define DIR_Y_PIN 5 //yellow
+#define CP_Y_PIN 6 //green
+#define EN_Y_PIN 7 //eliminated
 
-//pins out of order because of soldering mistake the pins are intentionally switched around
-#define CP_Z_PIN 8
-#define DIR_Z_PIN 10
-#define EN_Z_PIN 9
+#define DIR_Z_PIN 8 //blue
+#define CP_Z_PIN 9 //purple
+#define EN_Z_PIN 10 //eliminated
 
 #define DEBUG_LIGHT 13
 
@@ -61,8 +60,8 @@
 //Error codes
 #define SUCCESS 0x00
 #define GENERIC_FAIL 0x01
+#define UNDEFINED_FAIL 0x0A;
 
-typedef char byte;
 typedef bool spin_direction;
 
 spin_direction xDir;
@@ -71,13 +70,51 @@ spin_direction zDir;
 
 float coord[3];
 bool calibrated[3];
+bool vac_on;
 
-for(int i = 0; i < 3; i++){
-  coord[i] = 0;
-  calibrated[i] = false;
+bool isColliding(byte dir, byte axis){
+  //variables:
+  //dir -- either CLOCKWISE or COUNTERCLOCKWISE
+  //axis -- X, Y, or Z
+  
+  //pretty bad code, improve if you want
+  //basically, what this does is check to see if the 
+  //sensor that's in the direction of motion
+  //is detecting the presence of the platform.
+  //if this function returns true, it means the
+  //platform cannot move more or else it'll collide
+  //with the boundaries.
+  /*if(axis==X){
+    if(dir==CLOCKWISE && digitalRead(X_RIGHT_SENSOR)==SENSOR_TRIPPED){
+      return true;
+    }
+    if(dir==COUNTERCLOCKWISE && digitalRead(X_LEFT_SENSOR)==SENSOR_TRIPPED){
+      coord[X] = 0;
+      return true;
+    }
+  }else if(axis==Y){
+    if(dir==CLOCKWISE && digitalRead(Y_BACK_SENSOR)==SENSOR_TRIPPED){
+      return true;
+    }
+    if(dir==COUNTERCLOCKWISE && digitalRead(Y_FRONT_SENSOR)==SENSOR_TRIPPED){
+      coord[Y] = 0;
+      return true;
+    }
+  }else if(axis==Z){
+    if(dir==CLOCKWISE && digitalRead(Z_BOTTOM_SENSOR)==SENSOR_TRIPPED){
+      coord[Z] = 0;
+      return true;
+    }
+  }*/
+  return false;
 }
 
 void setup() {
+  for(int i = 0; i < 3; i++){
+    coord[i] = 0;
+    calibrated[i] = false;
+  }
+    
   Serial.begin(9600);
   pinMode(CP_Y_PIN, OUTPUT);
   pinMode(EN_Y_PIN, OUTPUT);
@@ -103,6 +140,7 @@ void setup() {
   pinMode(VACUUM_PIN, OUTPUT);
   //high signal disables vacuum
   digitalWrite(VACUUM_PIN, VAC_OFF);
+  vac_on = false;
 
   pinMode(X_LEFT_SENSOR, INPUT);
   pinMode(X_RIGHT_SENSOR, INPUT);
@@ -111,10 +149,13 @@ void setup() {
   pinMode(Z_BOTTOM_SENSOR, INPUT);
 
   pinMode(DEBUG_LIGHT,OUTPUT);
+
+  rawRelMov(1, 5, 0);
 }
 
 void loop() {
   if(Serial.available()){
+   delay(100); //wait for transmission to finish
    byte command = Serial.read();
 
    switch(command){
@@ -124,8 +165,7 @@ void loop() {
     case REL_MOV:
       Serial.print(relMov());
       break;
-    //uncomment the following as you write functions
-    /*case ABS_MOV:
+    case ABS_MOV:
       Serial.print(absMov());
       break;
     case SET_VAC:
@@ -133,9 +173,9 @@ void loop() {
       break;
     case TOG_VAC:
       Serial.print(togVac());
-      break;*/ 
+      break;
     default: 
-      Serial.print(GENERAL_FAIL);
+      Serial.print(GENERIC_FAIL);
    }
   }
 }
@@ -191,7 +231,91 @@ byte relMov() {
   float y_coord = *((float*)(input+4));
   float z_coord = *((float*)(input+8));
 
-  //do_stuff
+  return rawRelMov(x_coord, y_coord, z_coord);
+}
+
+byte rawRelMov(float x_coord, float y_coord, float z_coord) {
+  bool xDir = (x_coord<0)?COUNTERCLOCKWISE:CLOCKWISE; //counterclockwise is left
+  //negative is left
+  bool yDir = (y_coord<0)?COUNTERCLOCKWISE:CLOCKWISE; //counterclockwise is backwards
+  //negative is backwards
+  bool zDir = (z_coord<0)?CLOCKWISE:COUNTERCLOCKWISE; //for some reason, the z-axis goes backwards; counterclockwise is up
+  //negative is down
+
+  int xTicks = abs(x_coord*PULSES_PER_CIRCLE/DISTANCE_PER_TURN);
+  int yTicks = abs(y_coord*PULSES_PER_CIRCLE/DISTANCE_PER_TURN);
+  int zTicks = abs(z_coord*PULSES_PER_CIRCLE/DISTANCE_PER_TURN);
+  int maxTicks = max(xTicks, max(yTicks, zTicks));
+
+  digitalWrite(DIR_X_PIN, (x_coord > 0? X_POS: X_NEG));
+  digitalWrite(DIR_Y_PIN, (y_coord > 0? Y_POS: Y_NEG));
+  digitalWrite(DIR_Z_PIN, (z_coord > 0? Z_POS: Z_NEG));
+
+  for(int i = 0; i < maxTicks; i++){
+    if(isColliding(zDir,Z) && zTicks!=0){
+      zTicks = 0;
+      int maxTicks = max(xTicks, max(yTicks, zTicks));
+    }
+    if(isColliding(yDir,Y) && yTicks!=0){
+      yTicks = 0;
+      int maxTicks = max(xTicks, max(yTicks, zTicks));
+    }
+    if(isColliding(xDir,X) && xTicks!=0){
+      xTicks = 0;
+      int maxTicks = max(xTicks, max(yTicks, zTicks));
+    }
+
+    if(i<xTicks){
+      digitalWrite(CP_X_PIN, HIGH);
+      digitalWrite(CP_X_PIN, LOW);
+    }
+    if(i<yTicks){
+      digitalWrite(CP_Y_PIN, HIGH);
+      digitalWrite(CP_Y_PIN, LOW);
+    }
+    if(i<zTicks){
+      digitalWrite(CP_Z_PIN, HIGH);
+      digitalWrite(CP_Z_PIN, LOW);
+    }
+
+    delayMicroseconds(DELAY);
+  }
+
+  return SUCCESS;
+}
+
+byte absMov(){
+  byte input[12];
+
+  for(int i = 0; i < 12; i++){
+    input[i] = Serial.read();
+  }
+
+  float x_coord = *((float*)(input+0));
+  float y_coord = *((float*)(input+4));
+  float z_coord = *((float*)(input+8));
+
+  if(x_coord != 0 && !calibrated[X]) return UNDEFINED_FAIL;
+  if(y_coord != 0 && !calibrated[Y]) return UNDEFINED_FAIL;
+  if(z_coord != 0 && !calibrated[Z]) return UNDEFINED_FAIL;
+
+  return rawRelMov(x_coord - coord[X], y_coord - coord[Y], z_coord - coord[Z]);
+}
+
+byte setVac() {
+  byte input = Serial.read();
+
+  digitalWrite(VACUUM_PIN, input == 1? VAC_ON: VAC_OFF);
+
+  vac_on = (input == 1);
+
+  return SUCCESS;
+}
+
+byte togVac() {
+  vac_on = !vac_on;
+
+  digitalWrite(VACUUM_PIN, vac_on? VAC_ON: VAC_OFF);
 
   return SUCCESS;
 }
