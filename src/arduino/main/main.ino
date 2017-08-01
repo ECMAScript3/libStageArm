@@ -149,34 +149,37 @@ void setup() {
   pinMode(Z_BOTTOM_SENSOR, INPUT);
 
   pinMode(DEBUG_LIGHT,OUTPUT);
-  digitalWrite(DEBUG_LIGHT, LOW);
 }
 
 void loop() {
   if(Serial.available()){
-   digitalWrite(DEBUG_LIGHT, HIGH);
-   delay(100); //wait for transmission to finish
-   byte command = Serial.read();
+    digitalWrite(DEBUG_LIGHT, HIGH);
+    delay(15); //wait for transmission to finish
+    byte command = Serial.read();
 
-   switch(command){
-    case CALIBRATE: 
-      Serial.print(calibrate());
-      break;
-    case REL_MOV:
-      Serial.print(relMov());
-      break;
-    case ABS_MOV:
-      Serial.print(absMov());
-      break;
-    case SET_VAC:
-      Serial.print(setVac());
-      break;
-    case TOG_VAC:
-      Serial.print(togVac());
-      break;
-    default: 
-      Serial.print(GENERIC_FAIL);
-   }
+    if(command == 'a'){
+      digitalWrite(DEBUG_LIGHT, LOW);
+    }
+
+    switch(command){
+     case CALIBRATE: 
+       Serial.print(calibrate());
+       break;
+     case REL_MOV:
+       Serial.print(relMov());
+       break;
+     case ABS_MOV:
+       Serial.print(absMov());
+       break;
+     case SET_VAC:
+       Serial.print(setVac());
+       break;
+     case TOG_VAC:
+       Serial.print(togVac());
+       break;
+     default: 
+       Serial.print(GENERIC_FAIL);
+     }
   }
 }
 

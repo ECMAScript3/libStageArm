@@ -9,17 +9,45 @@ const ReadLine = SerialPort.parsers.ReadLine;
 var path = dialogs.prompt("Enter Arduino serial path", "/dev/cu.usbmodem1411", (path) => {
     const port = new SerialPort(path);
 
-    var floatCoords = new Float32Array(3);
-    floatCoords[0] = 1; floatCoords[1] = 1; floatCoords[2] = 0;
+    port.on('open', () => {
+        console.log('open');
+        
+        document.addEventListener('keydown', (event) => {   
+            var floatCoords = new Float32Array(3);
 
-    var coordsBytes = new Uint8Array(floatCoords.buffer);
-    var command = new Uint8Array(coordsBytes.length + 1);
-    command[0] = 0x02;
-    for(var i = 0; i < coordsBytes.length; i++) {
-        command[1+i] = coordsBytes[i];
-    }
+            floatCoords[0] = 0; floatCoords[1] = 0; floatCoords[2] = 0;
 
-    port.write(Buffer.from(command), () => {dialogs.alert('done')});
-    console.log(command);
+            switch(event.keyCode) {
+            case 38: //up
+                floatCoords[1] = 2;
+                break;
+            case 40: //down
+                floatCoords[1] = -2;
+                break;
+            case 37: //left
+                floatCoords[0] = -2;
+                break;
+            case 39: //right
+                floatCoords[0] = 2;
+                break;
+            default:
+                console.log("error bad keycode");
+            }
+
+            var coordsBytes = new Uint8Array(floatCoords.buffer);
+            var command = new Uint8Array(coordsBytes.length + 1);
+            command[0] = 0x02;
+            
+            for(var i = 0; i < coordsBytes.length; i++) {
+                command[1+i] = coordsBytes[i];
+            }
+            console.log(command);
+
+            port.write(Buffer.from(command), 'utf-8', () => {
+                console.log('done');
+            })
+        })
+    });
 });
+
 
