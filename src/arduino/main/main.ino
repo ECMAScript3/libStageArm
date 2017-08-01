@@ -36,7 +36,8 @@
 //7.22 cm per turn at 19V DC
 #define DISTANCE_PER_TURN 7.22
 //Delay is in microseconds
-#define DELAY 1000
+//#define DELAY 1000
+#define DELAY 4000
 
 //Serial commands
 #define CALIBRATE_ALL 0x00

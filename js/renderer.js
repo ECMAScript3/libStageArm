@@ -2,56 +2,76 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 const SerialPort = require('serialport');
 const Dialogs = require('dialogs');
 var dialogs = Dialogs();
 const ReadLine = SerialPort.parsers.ReadLine;
+var port;
+
+var stepSize = 2;
+var stepSizeInput = document.getElementById('step-size-input');
+stepSizeInput.onchange = function() {
+    var newStepSize = stepSizeInput.value;
+    console.log(newStepSize);
+    if(isNumeric(newStepSize)) {
+        stepSize = newStepSize;
+        document.getElementById('step-size-disp').innerHTML = stepSize;
+    }
+}
+
 var path = dialogs.prompt("Enter Arduino serial path", "/dev/cu.usbmodem1411", (path) => {
-    const port = new SerialPort(path);
+    port = new SerialPort(path);
 
     port.on('open', () => {
         console.log('open');
         
         document.addEventListener('keydown', (event) => {   
-            var floatCoords = new Float32Array(3);
-
-            floatCoords[0] = 0; floatCoords[1] = 0; floatCoords[2] = 0;
-
             switch(event.keyCode) {
             case 75: //k
             case 38: //up
-                floatCoords[1] = 2;
+                relMov(0, stepSize, 0);
                 break;
             case 74: //j
             case 40: //down
-                floatCoords[1] = -2;
-                break;
+                relMov(0, -stepSize, 0);
+            break;
             case 72: //h
             case 37: //left
-                floatCoords[0] = -2;
+                relMov(-stepSize, 0, 0);
                 break;
             case 76: //l
             case 39: //right
-                floatCoords[0] = 2;
+                relMov(stepSize, 0, 0);
                 break;
             default:
                 console.log("error bad keycode");
             }
 
-            var coordsBytes = new Uint8Array(floatCoords.buffer);
-            var command = new Uint8Array(coordsBytes.length + 1);
-            command[0] = 0x02;
-            
-            for(var i = 0; i < coordsBytes.length; i++) {
-                command[1+i] = coordsBytes[i];
-            }
-            console.log(command);
-
-            port.write(Buffer.from(command), 'utf-8', () => {
-                console.log('done');
-            })
         })
     });
 });
 
+function relMov(x, y, z) {
+    var floatCoords = new Float32Array(3);
+    floatCoords[0] = x;
+    floatCoords[1] = y;
+    floatCoords[2] = z;
+
+    var coordsBytes = new Uint8Array(floatCoords.buffer);
+    var command = new Uint8Array(coordsBytes.length + 1);
+    command[0] = 0x02;
+    
+    for(var i = 0; i < coordsBytes.length; i++) {
+        command[1+i] = coordsBytes[i];
+    }
+    console.log(command);
+
+    port.write(Buffer.from(command), 'utf-8', () => {
+        console.log('done');
+    })
+}
 
