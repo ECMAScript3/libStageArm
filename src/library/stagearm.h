@@ -20,7 +20,7 @@ extern unsigned char move_y(float);//                                           
 extern unsigned char move_z(float);//                                                   moveZ(Z)                 --moves stage by Z units along Z axis
 
 //set_period -- move with speed control
-extern unsigned char set_period(float);
+extern unsigned char set_period(int);
 //actuate -- Toggle vaccum pin
 extern unsigned char actuate();//                                                      actuate()                --Toggles vaccum state (Grab->Release || Release->Grab)
 extern unsigned char actOn();//                                                        actOn()                  --Sets vaccum pen to open state (Grab)
