@@ -6,10 +6,8 @@ function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-const SerialPort = require('serialport');
-const Dialogs = require('dialogs');
+
 var dialogs = Dialogs();
-const ReadLine = SerialPort.parsers.ReadLine;
 var port;
 
 var stepSize = 2;
@@ -55,23 +53,5 @@ var path = dialogs.prompt("Enter Arduino serial path", "/dev/cu.usbmodem1411", (
     });
 });
 
-function relMov(x, y, z) {
-    var floatCoords = new Float32Array(3);
-    floatCoords[0] = x;
-    floatCoords[1] = y;
-    floatCoords[2] = z;
 
-    var coordsBytes = new Uint8Array(floatCoords.buffer);
-    var command = new Uint8Array(coordsBytes.length + 1);
-    command[0] = 0x02;
-    
-    for(var i = 0; i < coordsBytes.length; i++) {
-        command[1+i] = coordsBytes[i];
-    }
-    console.log(command);
-
-    port.write(Buffer.from(command), 'utf-8', () => {
-        console.log('done');
-    })
-}
 
