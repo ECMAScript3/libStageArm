@@ -1,5 +1,5 @@
 default:
-	g++ $(wildcard *.c) -lpthread -lncurses -ggdb -Wall -Werror -o hack
+	g++ $(wildcard *.c) -ggdb -Wall -Werror -o hack
 interface: 
 	gcc com/com.c 
 prod:
