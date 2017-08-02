@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "stagearm.h": "c"
+        "stagearm.h": "c",
+        "stdio.h": "c",
+        "unistd.h": "c",
+        "string.h": "c",
+        "getopt.h": "c"
     }
 }

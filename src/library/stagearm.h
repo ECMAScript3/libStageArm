@@ -3,6 +3,7 @@
 #include <stdatomic.h>
 //Initializes serial connection. Accepts null-terminated string for serial file descripter (eg "/dev/tty1.usb")
 extern unsigned char init(char* serial_fd);
+extern unsigned char end();
 //calibrate -- calibrates coordinate grid (redefines origin in 3D Stage)
 extern unsigned char calibrate();//                                                    calibrate()              --Calibrates X, Y, and Z
 extern unsigned char calibrate_x();//                                                   calibrateX()             --Calibrates X
