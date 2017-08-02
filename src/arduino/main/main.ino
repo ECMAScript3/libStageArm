@@ -36,8 +36,6 @@
 //7.22 cm per turn at 19V DC
 #define DISTANCE_PER_TURN 7.22
 //Delay is in microseconds
-//#define DELAY 1000
-#define DELAY 4000
 
 //Serial commands
 #define CALIBRATE_ALL 0x00
@@ -46,6 +44,7 @@
 #define ABS_MOV 0x03
 #define SET_VAC 0x04
 #define TOG_VAC 0x05
+#define SET_DEL 0x06
 
 #define VAC_ON LOW
 #define VAC_OFF HIGH
@@ -62,9 +61,10 @@
 #define SUCCESS 0x00
 #define GENERIC_FAIL 0x01
 #define UNDEFINED_FAIL 0x0A;
+#define VOOB 0x0B;
 
 typedef bool spin_direction;
-
+int delay = 4000;
 spin_direction xDir;
 spin_direction yDir;
 spin_direction zDir;
@@ -178,6 +178,8 @@ void loop() {
      case TOG_VAC:
        Serial.print(togVac());
        break;
+     case SET_DEL:
+       Serial.print(setDel());
      default: 
        Serial.print(GENERIC_FAIL);
      }
@@ -282,10 +284,26 @@ byte rawRelMov(float x_coord, float y_coord, float z_coord) {
       digitalWrite(CP_Z_PIN, LOW);
     }
 
-    delayMicroseconds(DELAY);
+    delayMicroseconds(delay);
   }
 
   return SUCCESS;
+}
+
+byte setDel() {
+  byte input[4];
+
+  for(int i = 0; i < 4; i++){
+    input[i] = Serial.read();
+  }
+  int _delay = *((int*)input)
+
+  if (_delay >= 500) {
+    delay = _delay;
+    return SUCCESS;
+  } else {
+    return VOOB;
+  }
 }
 
 byte absMov(){

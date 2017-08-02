@@ -42,14 +42,15 @@
 
 ### Commands
 
-|Command          |Initial Byte |Buffer Size |Arguments                    |
-|-----------------|:-----------:|:----------:|-----------------------------|
-|Calibrate all    |0x00         |1+0         |None                         |
-|Calibrate        |0x01         |1+1         |0, 1, 2 -> X, Y, Z           |
-|Relative Movement|0x02         |1+3x4       |3 floats -> X, Y, Z movement |
-|Absolute Movement|0x03         |1+3x4       |3 floats -> X, Y, Z coord    |
-|Set vacuum       |0x04         |1+1         |0, 1 -> On, Off              |
-|Toggle Vacuum    |0x5          |1+0         |None                         |
+|Command          |Initial Byte |Buffer Size |Arguments                                  |
+|-----------------|:-----------:|:----------:|-------------------------------------------|
+|Calibrate all    |0x00         |1+0         |None                                       |
+|Calibrate        |0x01         |1+1         |0, 1, 2 -> X, Y, Z                         |
+|Relative Movement|0x02         |1+3x4       |3 floats -> X, Y, Z movement               |
+|Absolute Movement|0x03         |1+3x4       |3 floats -> X, Y, Z coord                  |
+|Set vacuum       |0x04         |1+1         |0, 1 -> On, Off                            |
+|Toggle Vacuum    |0x05         |1+0         |None                                       |
+|Set Loop Period  |0x06         |1+4         |Int -> Loop Period in mS; No less than 500 |
 
 ### Error Codes
 
@@ -66,6 +67,7 @@
 |0x08       |Coordinate out of bounds, reached outer bound Z & X                  |
 |0x09       |Coordinate out of bounds, reached outer bound X & Y & Z              |
 |0x0A       |Coordinate out of bounds, undefined action (Recallibration Suggested)|
+|0x0B       |Value out of bounds, no action                                       |
 
 
 # REST API
@@ -79,10 +81,10 @@ Send command as string in get request. Delimit args with "~". Returns a JSON obj
 }
 ```
 
-|Request  |Command           |Args        |
-|---------|------------------|------------|
-|CALB     |Calibrate         |"X\~Y\~Z"   |
-|RMOV     |Relative Movement |"X\~Y\~Z"   |
-|AMOV     |Absolute Movement |"X\~Y\~Z"   |
+|Request  |Command           |Args         |
+|---------|------------------|-------------|
+|CALB     |Calibrate         |"X\~Y\~Z"    |
+|RMOV     |Relative Movement |"X\~Y\~Z"    |
+|AMOV     |Absolute Movement |"X\~Y\~Z"    |
 |SVAC     |Set Vacuum        |`true\|false`|
-|TVAC     |Toggle Vacuum     |None        |
+|TVAC     |Toggle Vacuum     |None         |
