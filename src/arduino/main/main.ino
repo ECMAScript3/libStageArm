@@ -64,7 +64,7 @@
 #define VOOB 0x0B;
 
 typedef bool spin_direction;
-int delay = 4000;
+int delay_ms = 4000;
 spin_direction xDir;
 spin_direction yDir;
 spin_direction zDir;
@@ -218,7 +218,7 @@ byte calibrate() {
   while(!isColliding(dir, axis)){
     digitalWrite(pulse_pin, HIGH);
     digitalWrite(pulse_pin, LOW);
-    delayMicroseconds(DELAY);
+    delayMicroseconds(delay_ms);
   }
 
   coord[axis] = 0;
@@ -284,7 +284,7 @@ byte rawRelMov(float x_coord, float y_coord, float z_coord) {
       digitalWrite(CP_Z_PIN, LOW);
     }
 
-    delayMicroseconds(delay);
+    delayMicroseconds(delay_ms);
   }
 
   return SUCCESS;
@@ -296,10 +296,10 @@ byte setDel() {
   for(int i = 0; i < 4; i++){
     input[i] = Serial.read();
   }
-  int _delay = *((int*)input)
+  int _delay = *((int*)input);
 
   if (_delay >= 500) {
-    delay = _delay;
+    delay_ms = _delay;
     return SUCCESS;
   } else {
     return VOOB;
