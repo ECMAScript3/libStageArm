@@ -1,3 +1,7 @@
 .DS_Store
 
 src/library/libStageArm.so
+
+test/a.out
+
+src/library/libStageArm.so
