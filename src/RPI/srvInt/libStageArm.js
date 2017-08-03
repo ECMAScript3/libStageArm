@@ -2,8 +2,8 @@ const SerialPort = require('serialport');
 const Dialogs = require('dialogs');
 
 class armController {
-    constructor (/*USB File Descriptor*/fd) {
-        this.port = 
+    constructor( /*USB File Descriptor*/ fd) {
+        this.port = new SerialPort(fd);
     }
     relMove(x, y, z) {
         var floatCoords = new Float32Array(3);
@@ -14,9 +14,9 @@ class armController {
         var coordsBytes = new Uint8Array(floatCoords.buffer);
         var command = new Uint8Array(coordsBytes.length + 1);
         command[0] = 0x02;
-        
-        for(var i = 0; i < coordsBytes.length; i++) {
-            command[1+i] = coordsBytes[i];
+
+        for (var i = 0; i < coordsBytes.length; i++) {
+            command[1 + i] = coordsBytes[i];
         }
         console.log(command);
 
