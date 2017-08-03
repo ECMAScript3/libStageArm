@@ -13,11 +13,11 @@
 #define DEBUG_LIGHT 13
 
 //below are the metal sensors that are plugged into the analog ports
-#define X_LEFT_SENSOR A3
-#define X_RIGHT_SENSOR A2
-#define Y_FRONT_SENSOR A1
-#define Y_BACK_SENSOR A4
-#define Z_BOTTOM_SENSOR A0
+#define X_LEFT_SENSOR A2
+#define X_RIGHT_SENSOR A4
+#define Y_POS_SENSOR A3
+#define Y_NEG_SENSOR A0
+#define Z_BOTTOM_SENSOR A1
 
 #define SENSOR_TRIPPED LOW
 
@@ -97,7 +97,7 @@ bool isColliding(byte dir, byte axis){
     if(dir==CLOCKWISE && digitalRead(Y_BACK_SENSOR)==SENSOR_TRIPPED){
       return true;
     }
-    if(dir==COUNTERCLOCKWISE && digitalRead(Y_FRONT_SENSOR)==SENSOR_TRIPPED){
+    if(dir==COUNTERCLOCKWISE && digitalRead(Y_FORWARD_SENSOR)==SENSOR_TRIPPED){
       coord[Y] = 0;
       return true;
     }
@@ -145,7 +145,7 @@ void setup() {
 
   pinMode(X_LEFT_SENSOR, INPUT);
   pinMode(X_RIGHT_SENSOR, INPUT);
-  pinMode(Y_FRONT_SENSOR, INPUT);
+  pinMode(Y_FORWARD_SENSOR, INPUT);
   pinMode(Y_BACK_SENSOR, INPUT);
   pinMode(Z_BOTTOM_SENSOR, INPUT);
 
@@ -153,8 +153,8 @@ void setup() {
 }
 
 void loop() {
+  digitalWrite(DEBUG_LIGHT, digitalRead(A3));
   if(Serial.available()){
-    digitalWrite(DEBUG_LIGHT, HIGH);
     delay(15); //wait for transmission to finish
     byte command = Serial.read();
 
