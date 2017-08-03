@@ -23,7 +23,7 @@ unsigned char init(char* serial_fd) {
     t_opts.c_cflag &= ~CSTOPB;
     t_opts.c_cflag |= CREAD | CLOCAL;
     t_opts.c_oflag &= ~OPOST;
-    arduino = open(serial_fd, O_RDWR);
+    arduino = open(serial_fd, O_RDWR  | O_NONBLOCK);
     if (arduino == -1)  {
         perror("Could not connect to arduino!");
         return 1;
