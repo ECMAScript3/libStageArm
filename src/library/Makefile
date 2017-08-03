@@ -1,9 +1,4 @@
 default:
-	make for`(uname -s)`
-.PHONY: forDarwin
-forDarwin:
-.PHONY: forLinux
-forLinux:
 	gcc -shared -Wall -o libStageArm.so -fPIC stagearm.c
 install:
 	make install`(uname -s)`
@@ -14,7 +9,7 @@ installLinux:
 
 .PHONY: installDarwin
 installDarwin:
-	cp stageArm.dylib /usr/local/lib/
+	cp libStageArm.so /usr/local/lib/
 	cp stageArm.h /usr/local/include/
 uninstall:
 	make uninstall`(uname -s)`
