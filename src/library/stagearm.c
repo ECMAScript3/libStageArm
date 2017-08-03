@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -10,6 +11,8 @@ typedef struct termios term_options;
 int arduino;
 unsigned char init(char* serial_fd) {
     term_options t_opts;
+    arduino = open(serial_fd, O_RDWR | O_NOCTTY);
+    tcgetattr(arduino, &t_opts);
     cfsetispeed(&t_opts, B9600);
     cfsetospeed(&t_opts, B9600);
     t_opts.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
@@ -23,7 +26,6 @@ unsigned char init(char* serial_fd) {
     t_opts.c_cflag &= ~CSTOPB;
     t_opts.c_cflag |= CREAD | CLOCAL;
     t_opts.c_oflag &= ~OPOST;
-    arduino = open(serial_fd, O_RDWR  | O_NONBLOCK);
     if (arduino == -1)  {
         perror("Could not connect to arduino!");
         return 1;
@@ -33,6 +35,8 @@ unsigned char init(char* serial_fd) {
         perror("Could not set terminal attributes!");
         return 1;
     }
+    sleep(2);
+    tcflush(arduino, TCIFLUSH);
     return 0;
 };
 unsigned char end() {
