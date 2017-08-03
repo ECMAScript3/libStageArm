@@ -5,6 +5,7 @@ install:
 .PHONY: installLinux
 installLinux:
 	if [ -d "/usr/lib64" ]; then cp libStageArm.so /usr/lib64/; else cp libStageArm.so /usr/lib/; fi
+	if [ -d "/usr/lib64" ]; then cp libStageArm.so /lib64/; else cp libStageArm.so /lib/; fi
 		cp stageArm.h /usr/include/
 
 .PHONY: installDarwin
