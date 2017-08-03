@@ -39,39 +39,26 @@ unsigned char end() {
     return close(arduino);
 };
 unsigned char calibrate() {
-    unsigned char* k;
-    *k = 0x00;
+    unsigned char k[1] = {0x00};
     write(arduino, k, 1);
     read(arduino, k, 1);
     return *k;
 };
 unsigned char calibrate_x() {
-    unsigned char k[5];
-    float* val;
-    *k = 0x01;
-    *val = 0.0;
-    memcpy(k + 1, val, 4);
-    write(arduino, k, 5);
+    unsigned char k[2] = {0x01, 0x00};
+    write(arduino, k, 2);
     read(arduino, k, 1);
     return *k;
 };
 unsigned char calibrate_y() {
-    unsigned char k[5];
-    float* val;
-    *k = 0x01;
-    *val = 1.0;
-    memcpy(k + 1, val, 4);
-    write(arduino, k, 5);
+    unsigned char k[2] = {0x01, 0x01};
+    write(arduino, k, 2);
     read(arduino, k, 1);
     return *k;
 };
 unsigned char calibrate_z() {
-    unsigned char k[5];
-    float* val;
-    *k = 0x01;
-    *val = 2.0;
-    memcpy(k + 1, val, 4);
-    write(arduino, k, 5);
+    unsigned char k[2] = {0x01, 0x02};
+    write(arduino, k, 2);
     read(arduino, k, 1);
     return *k;
 };
@@ -86,13 +73,13 @@ unsigned char move_to(float x, float y, float z) {
     return *k;
 };
 unsigned char move_to_x(float x) {
-    move_to(x, 0, 0);
+    return move_to(x, 0, 0);
 };
 unsigned char move_to_y(float y) {
-    move_to(0, y, 0);
+    return move_to(0, y, 0);
 };
 unsigned char move_to_z(float z) {
-    move_to(0, 0, z);
+    return move_to(0, 0, z);
 };
 unsigned char move(float x, float y, float z) {
     unsigned char k[13];
@@ -105,45 +92,36 @@ unsigned char move(float x, float y, float z) {
     return *k;
 };
 unsigned char move_x(float x) {
-    move(x, 0, 0);
+    return move(x, 0, 0);
 };
 unsigned char move_y(float y) {
-    move(0, y, 0);
+    return move(0, y, 0);
 };
 unsigned char move_z(float z) {
-    move(0, 0, z);
+    return move(0, 0, z);
 };
 unsigned char set_period(int per) {
     unsigned char k[5];
-    int* val;
     *k = 0x06;
-    *val = per;
-    memcpy(k + 1, val, 4);
+    memcpy(k + 1, &per, 4);
     write(arduino, k, 5);
     read(arduino, k, 1);
     return *k;
 };
 unsigned char actuate() {
-    unsigned char* k;
-    *k = 0x05;
+    unsigned char k[1] = {0x05};
     write(arduino, k, 1);
     read(arduino, k, 1);
     return *k;
 };
 unsigned char actOn() {
-    unsigned char k[2];
-    int* val;
-    *k = 0x04;
-    *(k+1) = 0x01;
+    unsigned char k[2] = {0x04, 0x01};
     write(arduino, k, 2);
     read(arduino, k, 1);
     return *k;
 };
 unsigned char actOff() {
-    unsigned char k[2];
-    int* val;
-    *k = 0x04;
-    *(k+1) = 0x00;
+    unsigned char k[2] = {0x04, 0x00};
     write(arduino, k, 2);
     read(arduino, k, 1);
     return *k;
