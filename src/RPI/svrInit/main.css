@@ -1,0 +1,76 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: Saira;
+    color: white;
+    text-shadow: 0px 0px 1px black;
+    line-height: 2em;
+}
+
+body {
+    height: 100vh;
+}
+
+input {
+    color: black;
+    text-shadow: none;
+}
+
+.title {
+    color: black;
+    text-shadow: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+    text-shadow: none;
+}
+
+#faceview {
+    height: 66%;
+    background-color: white;
+    top: 3%;
+}
+
+#infoarea {
+    top: 72%;
+    width: 100%;
+    position: fixed;
+}
+
+#stepSizeInput {
+    width: 5em;
+    height: 1.1em;
+    color: white;
+    background-color: transparent;
+    border: 0px none transparent;
+    border-bottom: 1px solid white;
+    -moz-appearance: textfield;
+}
+
+#stepSizeInput:focus {
+    outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#stepPeriodInput {
+    width: 5em;
+    height: 1.1em;
+    color: white;
+    background-color: transparent;
+    border: 0px none transparent;
+    border-bottom: 1px solid white;
+    -moz-appearance: textfield
+}
+
+#stepPeriodInput:focus {
+    outline: none;
+}

@@ -143,11 +143,11 @@ void setup() {
   digitalWrite(VACUUM_PIN, VAC_OFF);
   vac_on = false;
 
-  pinMode(X_LEFT_SENSOR, INPUT);
-  pinMode(X_RIGHT_SENSOR, INPUT);
-  pinMode(Y_FORWARD_SENSOR, INPUT);
-  pinMode(Y_BACK_SENSOR, INPUT);
-  pinMode(Z_BOTTOM_SENSOR, INPUT);
+  //pinMode(X_LEFT_SENSOR, INPUT);
+  //pinMode(X_RIGHT_SENSOR, INPUT);
+  //pinMode(Y_FORWARD_SENSOR, INPUT);
+  //pinMode(Y_BACK_SENSOR, INPUT);
+  //pinMode(Z_BOTTOM_SENSOR, INPUT);
 
   pinMode(DEBUG_LIGHT,OUTPUT);
 }
@@ -252,7 +252,7 @@ byte rawRelMov(float x_coord, float y_coord, float z_coord) {
   int yTicks = abs(y_coord*PULSES_PER_CIRCLE/DISTANCE_PER_TURN);
   int zTicks = abs(z_coord*PULSES_PER_CIRCLE/DISTANCE_PER_TURN);
   int maxTicks = max(xTicks, max(yTicks, zTicks));
-
+  double current_delay = 5000;
   digitalWrite(DIR_X_PIN, (x_coord > 0? X_POS: X_NEG));
   digitalWrite(DIR_Y_PIN, (y_coord > 0? Y_POS: Y_NEG));
   digitalWrite(DIR_Z_PIN, (z_coord > 0? Z_POS: Z_NEG));
@@ -283,8 +283,15 @@ byte rawRelMov(float x_coord, float y_coord, float z_coord) {
       digitalWrite(CP_Z_PIN, HIGH);
       digitalWrite(CP_Z_PIN, LOW);
     }
-
-    delayMicroseconds(delay_ms);
+    if (5000 > delay_ms) {
+      if (i <= 1.5 * PULSES_PER_CIRCLE/DISTANCE_PER_TURN) {
+        current_delay -= (5000 - delay_ms)/(1.5 * PULSES_PER_CIRCLE/DISTANCE_PER_TURN);
+      }
+      if (i > maxTicks - (1.5 * PULSES_PER_CIRCLE/DISTANCE_PER_TURN)) {
+        current_delay += (5000 - delay_ms)/(1.5 * PULSES_PER_CIRCLE/DISTANCE_PER_TURN);
+      }
+    }
+    delayMicroseconds(max(delay_ms, current_delay));
   }
 
   return SUCCESS;

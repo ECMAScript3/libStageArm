@@ -9,19 +9,22 @@
 </head>
 
 <body>
-    <video id="camview" width="1920" height="1080"></video>
-    <img id="faceview"></img>
+    <div tabindex="0" id="defocus" width="0"></div>
+    <center style="height: 100%;" style>
+        <video id="faceview"></video>
+    </center>
     <div id="infoarea">
         <center>
             Press arrow keys to control the stageArm. A single press moves the set distance.
-            <div>&nbsp;&nbsp;&nbsp;The current step size is:&nbsp;&nbsp;<input type="number" min="0" max="150" id="stepSizeInput" value="2" /></div>
+            <div>The current step size is:&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" min="0.005" max="150" id="stepSizeInput" value="2" /></div>
+            <div>The current step period is:&nbsp;&nbsp;<input type="number" min="500" max="120000" id="stepPeriodInput" value="1000" /></div>
         </center>
     </div>
 </body>
 
 <script>
     window.onload = () => {
-        require('./renderer.js')
+        require('./control.js');
         require('./cam.js');
     };
 </script>
