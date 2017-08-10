@@ -6,9 +6,17 @@
     <title>Arm Control</title>
     <link rel="stylesheet" type="text/css" href="font.css">
     <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="3drep.css">
+    <link rel="stylesheet" type="text/css" href="menu.css">
 </head>
 
 <body>
+    <div id="menu">
+
+    </div>
+    <div id="3drep">
+        <div></div>
+    </div>
     <div tabindex="0" id="defocus" width="0"></div>
     <center style="height: 100%;" style>
         <video id="faceview"></video>
@@ -24,8 +32,10 @@
 
 <script>
     window.onload = () => {
-        require('./control.js');
-        require('./cam.js');
+        //require('./control.js');
+        //require('./cam.js');
+        require("menu.js");
+        require("3drep.js");
     };
 </script>
 

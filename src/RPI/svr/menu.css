@@ -1,0 +1,10 @@
+#menu {
+    left: -255px;
+    width: 250px;
+    top: 0;
+    position: fixed;
+    height: 100%;
+    background-color: #555555;
+    box-shadow: 2px 0px 1px #ffffff;
+    transition-duration: 200ms;
+}
