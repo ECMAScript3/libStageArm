@@ -10,42 +10,8 @@ float coord[3];
 bool calibrated[3];
 bool vac_on;
 
-bool isColliding(byte dir, byte axis){
-  //variables:
-  //dir -- either CLOCKWISE or COUNTERCLOCKWISE
-  //axis -- X, Y, or Z
-  
-  //pretty bad code, improve if you want
-  //basically, what this does is check to see if the 
-  //sensor that's in the direction of motion
-  //is detecting the presence of the platform.
-  //if this function returns true, it means the
-  //platform cannot move more or else it'll collide
-  //with the boundaries.
-  /*if(axis==X){
-    if(dir==CLOCKWISE && digitalRead(X_RIGHT_SENSOR)==SENSOR_TRIPPED){
-      return true;
-    }
-    if(dir==COUNTERCLOCKWISE && digitalRead(X_LEFT_SENSOR)==SENSOR_TRIPPED){
-      coord[X] = 0;
-      return true;
-    }
-  }else if(axis==Y){
-    if(dir==CLOCKWISE && digitalRead(Y_BACK_SENSOR)==SENSOR_TRIPPED){
-      return true;
-    }
-    if(dir==COUNTERCLOCKWISE && digitalRead(Y_FORWARD_SENSOR)==SENSOR_TRIPPED){
-      coord[Y] = 0;
-      return true;
-    }
-  }else if(axis==Z){
-    if(dir==CLOCKWISE && digitalRead(Z_BOTTOM_SENSOR)==SENSOR_TRIPPED){
-      coord[Z] = 0;
-      return true;
-    }
-  }*/
-  return false;
-}
+#include "collision.h"
+#include "calibrate.h"
 
 void setup() {
   for(int i = 0; i < 3; i++){
@@ -93,45 +59,7 @@ void loop() {
   }
 }
 
-byte calibrate() {
-  byte axis = Serial.read();
-  byte dir;
-  byte direction_pin;
-  byte pulse_pin;
 
-  switch(axis){
-    case X:
-      dir = xDir = COUNTERCLOCKWISE;
-      direction_pin = DIR_X_PIN;
-      digitalWrite(direction_pin, X_NEG);
-      pulse_pin = CP_X_PIN;
-      break;
-    case Y:
-      dir = yDir = COUNTERCLOCKWISE;
-      direction_pin = DIR_Y_PIN;
-      digitalWrite(direction_pin, Y_NEG);
-      pulse_pin = CP_Y_PIN;
-      break;
-    case Z:
-      dir = zDir = CLOCKWISE;
-      direction_pin = DIR_Z_PIN;
-      digitalWrite(direction_pin, Z_NEG);
-      pulse_pin = CP_Z_PIN;
-      break;
-    default:
-      return GENERIC_FAIL;
-  }
-
-  while(!isColliding(dir, axis)){
-    digitalWrite(pulse_pin, HIGH);
-    digitalWrite(pulse_pin, LOW);
-    delayMicroseconds(delay_ms);
-  }
-
-  coord[axis] = 0;
-  calibrated[axis] = true;
-  return SUCCESS;
-}
 
 byte relMov() {
   byte input[12];
@@ -204,6 +132,8 @@ byte rawRelMov(float x_coord, float y_coord, float z_coord) {
   return SUCCESS;
 }
 
+
+//Set Period of loop
 byte setDel() {
   byte input[4];
 
@@ -220,6 +150,8 @@ byte setDel() {
   }
 }
 
+
+//Move head to coordinate position
 byte absMov(){
   byte input[12];
 
