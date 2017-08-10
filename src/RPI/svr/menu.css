@@ -2,9 +2,51 @@
     left: -255px;
     width: 250px;
     top: 0;
+    z-index: 100;
     position: fixed;
     height: 100%;
     background-color: #555555;
     box-shadow: 2px 0px 1px #ffffff;
     transition-duration: 200ms;
+}
+
+#menuIcon {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    width: 40px;
+    height: 40px;
+    color: white;
+    font-size: 40px;
+    cursor: default;
+    z-index: 90;
+}
+
+#closeMenuIcon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 40px;
+    height: 40px;
+    color: white;
+    font-size: 40px;
+    cursor: default;
+    z-index: 101;
+}
+
+#menuContent {
+    width: 100%;
+    height: 95%;
+    bottom: 0px;
+    left: 0px;
+    display: inline-block;
+    position: absolute;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+.menuItem {
+    display: inline-block;
+    size: 30px;
+    vertical-align: middle !important
 }

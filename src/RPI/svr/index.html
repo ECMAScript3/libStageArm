@@ -11,31 +11,42 @@
 </head>
 
 <body>
-    <div id="menu">
-
-    </div>
-    <div id="3drep">
-        <div></div>
-    </div>
     <div tabindex="0" id="defocus" width="0"></div>
-    <center style="height: 100%;" style>
-        <video id="faceview"></video>
-    </center>
-    <div id="infoarea">
-        <center>
-            Press arrow keys to control the stageArm. A single press moves the set distance.
-            <div>The current step size is:&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" min="0.005" max="150" id="stepSizeInput" value="2" /></div>
-            <div>The current step period is:&nbsp;&nbsp;<input type="number" min="500" max="120000" id="stepPeriodInput" value="1000" /></div>
+    <section id="menuGroup">
+        <div id="menuIcon" class="material-icons" onclick="menu.toggle();">menu</div>
+        <div id="menu">
+            <div id="closeMenuIcon" class="material-icons" onclick="menu.toggle();">close</div>
+            <div id="menuContent">
+                <div class="menuItem" onclick="menu.toggleCam();"><i class="material-icons">center_focus_weak</i>&nbsp;Camera View</div><br/>
+                <div class="menuItem" onclick="menu.toggle3D();"><i class="material-icons">settings_overscan</i>&nbsp;3D Control</div><br/>
+                <div class="menuItem" onclick="menu.toggleEdit();"><i class="material-icons">memory</i>&nbsp;Write Actions</div><br/>
+            </div>
+        </div>
+    </section>
+    <section id="3drepGroup">
+        <div></div>
+    </section>
+    <section id="camGroup">
+        <center style="height: 100%;" style>
+            <video id="faceview"></video>
         </center>
-    </div>
+        <div id="infoarea">
+            <center>
+                Press arrow keys to control the stageArm. A single press moves the set distance.
+                <div>The current step size is:&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" min="0.005" max="150" id="stepSizeInput" value="2" /></div>
+                <div>The current step period is:&nbsp;&nbsp;<input type="number" min="500" max="120000" id="stepPeriodInput" value="1000" /></div>
+            </center>
+        </div>
+    </section>
 </body>
 
 <script>
+    var menu;
     window.onload = () => {
-        //require('./control.js');
-        //require('./cam.js');
-        require("menu.js");
-        require("3drep.js");
+        require('./control.js');
+        require('./cam.js');
+        menu = require("./menu.js");
+        require("./3drep.js");
     };
 </script>
 
