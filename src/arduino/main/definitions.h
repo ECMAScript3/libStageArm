@@ -1,3 +1,4 @@
+#pragma once
 #define DIR_X_PIN 2 //red
 #define CP_X_PIN 3 //orange
 #define EN_X_PIN 4 //eliminated
@@ -62,3 +63,15 @@
 #define GENERIC_FAIL 0x01
 #define UNDEFINED_FAIL 0x0A;
 #define VOOB 0x0B;
+
+//typedefs
+typedef bool spin_direction;
+typedef struct {
+  spin_direction xDir;
+  spin_direction yDir;
+  spin_direction zDir;
+  int delay_ms;
+  float coord[3];
+  bool calibrated[3];
+  bool vac_on;
+} stageArm;
